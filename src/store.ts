@@ -1,13 +1,19 @@
 import { create } from "zustand";
 
-interface BearState {
-    bears: number;
-    increase: (by: number) => void;
+interface StoreState {
+    wallpaper: string;
+    setWallpaper: (newWallpaper: string) => void;
+
+    time: Date;
+    updateTime: () => void;
 }
 
-const useBearStore = create<BearState>()((set) => ({
-    bears: 0,
-    increase: (by) => set((state) => ({ bears: state.bears + by })),
+const useBaseStore = create<StoreState>()((set) => ({
+    time: new Date(),
+    wallpaper: "/src/assets/wallpapers/waves.png",
+    setWallpaper: (newWallpaper) =>
+        set(() => ({ wallpaper: `/src/assets/wallpapers/${newWallpaper}` })),
+    updateTime: () => set(() => ({ time: new Date() })),
 }));
 
-export default useBearStore;
+export default useBaseStore;

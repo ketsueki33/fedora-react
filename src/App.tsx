@@ -1,20 +1,18 @@
 import "./App.css";
-import useBearStore from "./store";
+import TopBar from "./components/TopBar/TopBar";
+import useBaseStore from "./store";
 
 function App() {
-    const bears = useBearStore((state) => state.bears);
-    const increase = useBearStore((state) => state.increase);
+    const wallpaper = useBaseStore((state) => state.wallpaper);
 
     return (
         <>
-            <div
-                onClick={() => {
-                    increase(1);
-                }}
-                className="w-full bg-red-500 flex justify-center"
+            <main
+                className="min-w-full h-screen bg-center bg-cover bg-no-repeat relative"
+                style={{ backgroundImage: `url(${wallpaper})` }}
             >
-                {bears}
-            </div>
+                <TopBar />
+            </main>
         </>
     );
 }
