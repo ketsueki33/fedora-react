@@ -1,24 +1,20 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useBaseStore from "../../store";
+import { format } from "date-fns";
+import Calendar from "./Calendar";
+import { cn } from "../../lib/utils";
 
 export const Time = () => {
+    const [isOpen, setIsOpen] = useState(false);
+
     const time = useBaseStore((state) => state.time);
     const updateTime = useBaseStore((state) => state.updateTime);
 
-    const formattedDate = time.toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-    });
+    const formattedDate = format(time, "MMM dd");
 
-    const formattedTime = time.toLocaleTimeString("en-US", {
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: true, // For 24-hour format, set to true for 12-hour format
-    });
+    const formattedTime = format(time, "KK:mm");
 
     useEffect(() => {
-        console.log("check");
-
         const intervalId = setInterval(() => {
             updateTime();
         }, 30000); // Update every 30 seconds
@@ -26,10 +22,23 @@ export const Time = () => {
         return () => clearInterval(intervalId);
     }, [updateTime]);
 
+    const closeCal = () => {
+        setIsOpen(false);
+    };
+
     return (
-        <div className="font-bold flex gap-3 hover:bg-gray-600/40 py-0.5 px-4 rounded-full transition-all ease-in-out duration-300">
-            <p>{formattedDate}</p>
-            <p>{formattedTime}</p>
+        <div className="relative">
+            <div
+                className={cn(
+                    "font-bold flex gap-3 top-transition",
+                    isOpen ? "top-open" : "top-hover"
+                )}
+                onClick={() => setIsOpen((prev) => !prev)}
+            >
+                <p>{formattedDate}</p>
+                <p>{formattedTime}</p>
+                {isOpen ? <Calendar time={time} closeCalendar={closeCal} /> : null}
+            </div>
         </div>
     );
 };

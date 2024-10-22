@@ -1,0 +1,2 @@
+- add togglefullscreen button to topbar (with a temporary popup)
+- animation for top-bar modals on opening/closing

@@ -13,6 +13,20 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+@layer utilities {
+    .top-hover {
+        @apply hover:bg-gray-600/40 py-0.5 px-4 rounded-full;
+    }
+
+    .top-open {
+        @apply bg-metablue py-0.5 px-4 rounded-full;
+    }
+
+    .top-transition {
+        @apply transition-colors ease-in-out duration-300;
+    }
+}
+
 body {
     margin: 0;
     padding: 0;
